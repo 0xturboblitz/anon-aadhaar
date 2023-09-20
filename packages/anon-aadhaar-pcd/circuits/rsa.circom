@@ -124,13 +124,14 @@ template RSAPad(n, k) {
 template RSAVerify65537(n, k) {
     signal input signature[k];
     signal input modulus[k];
-    signal input base_message[k];
+    signal input padded_message[k];
+    // signal output out[k];
 
-    component padder = RSAPad(n, k);
-    for (var i = 0; i < k; i++) {
-        padder.modulus[i] <== modulus[i];
-        padder.base_message[i] <== base_message[i];
-    }
+    // component padder = RSAPad(n, k);
+    // for (var i = 0; i < k; i++) {
+    //     padder.modulus[i] <== modulus[i];
+    //     padder.base_message[i] <== base_message[i];
+    // }
 
     // Check that the signature is in proper form and reduced mod modulus.
     component signatureRangeCheck[k];
@@ -151,6 +152,6 @@ template RSAVerify65537(n, k) {
     // By construction of the padding, the padded message is necessarily
     // smaller than the modulus. Thus, we don't have to check that bigPow is fully reduced.
     for (var i = 0; i < k; i++) {
-        bigPow.out[i] === padder.padded_message[i];
+        bigPow.out[i] === padded_message[i];
     }
 }

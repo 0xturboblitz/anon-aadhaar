@@ -43,23 +43,21 @@ describe('PCD tests', function () {
 
     const input = {
       signature: splitToWords(
-        BigInt(pcdArgs.signature.value),
+        BigInt(pcdArgs.signature.value as string),
         BigInt(64),
         BigInt(32)
       ),
       modulus: splitToWords(
-        BigInt(pcdArgs.modulus.value),
+        BigInt(pcdArgs.modulus.value as string),
         BigInt(64),
         BigInt(32)
       ),
       base_message: splitToWords(
-        BigInt(pcdArgs.base_message.value),
+        BigInt(pcdArgs.base_message.value as string),
         BigInt(64),
         BigInt(32)
       ),
     }
-
-    console.log('inputs of the circuit', input)
 
     const pcd = await prove(pcdArgs)
 

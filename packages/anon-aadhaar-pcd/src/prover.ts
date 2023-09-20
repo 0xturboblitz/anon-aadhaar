@@ -80,18 +80,36 @@ export class BackendProver implements ProverInferace {
         BigInt(64),
         BigInt(32)
       ),
-      base_message: splitToWords(
-        BigInt(witness.base_message.value),
-        BigInt(64),
-        BigInt(32)
-      ),
+      // base_message: splitToWords(
+      //   BigInt(witness.base_message.value),
+      //   BigInt(64),
+      //   BigInt(32)
+      // ),
+      padded_message: ['3626324085499461436',  '15137430623782848370', '13410089559264023318',
+      '7272337899472972005',
+      '217300885422736416',   '938447882527703397',
+      '18446744069417742640', '18446744073709551615', '18446744073709551615',
+      '18446744073709551615', '18446744073709551615', '18446744073709551615',
+      '18446744073709551615', '18446744073709551615', '18446744073709551615',
+      '18446744073709551615', '18446744073709551615', '18446744073709551615',
+      '18446744073709551615', '18446744073709551615', '18446744073709551615',
+      '18446744073709551615', '18446744073709551615', '18446744073709551615',
+      '18446744073709551615', '18446744073709551615', '18446744073709551615',
+      '18446744073709551615', '18446744073709551615', '18446744073709551615',
+      '18446744073709551615', '562949953421311']
     }
 
-    const { proof } = await groth16.fullProve(
+    console.log('input', input)
+
+    const obj = await groth16.fullProve(
       input,
       await this.wasm.getKey(),
       await this.zkey.getKey()
     )
+
+    console.log('obj', obj)
+
+    const { proof } = obj
 
     return {
       modulus: witness.modulus.value,
