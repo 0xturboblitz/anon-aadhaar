@@ -47,8 +47,8 @@ template RSAPad(n, k) {
     signal input base_message[k];
     signal output padded_message[k];
 
-    var base_len = 280;
-    var msg_len = 160;
+    var base_len = 408;
+    var msg_len = 256;
 
     signal padded_message_bits[n*k];
 
@@ -82,7 +82,7 @@ template RSAPad(n, k) {
     }
 
     for (var i = msg_len; i < base_len; i++) {
-        padded_message_bits[i] <== (0x3021300906052b0e03021a05000414 >> (i - msg_len)) & 1;
+        padded_message_bits[i] <== (0x3031300d060960864801650304020105000420 >> (i - msg_len)) & 1;
     }
 
     component modulus_zero[(n*k + 7 - (base_len + 8))\8];

@@ -47,27 +47,27 @@ function install_deps() {
 function setup_circuit() {
     cd $ROOT
     echo "Starting setup...!"
-    HASH=`$ROOT/script/utils.sh`
+    # HASH=`$ROOT/script/utils.sh`
 
     echo "TRUSTED SETUP FOR DEVELOPMENT - PLEASE, DON'T USE IT IN PRODUCT!!!!"
     cd $BUILD_DIR 
 
     CIRCUIT=circuit
-    if [ -f $CIRCUIT/hash.txt ]; then 
-        OLD_HASH=`cat $CIRCUIT/hash.txt`
-        echo $OLD_HASH 
-    else 
-        OLD_HASH=""
-    fi
+    # if [ -f $CIRCUIT/hash.txt ]; then 
+    #     OLD_HASH=`cat $CIRCUIT/hash.txt`
+    #     echo $OLD_HASH 
+    # else 
+    #     OLD_HASH=""
+    # fi
 
     cd $RSA_DIR
-    if [ "$HASH" != "$OLD_HASH" ]; then 
+    # if [ "$HASH" != "$OLD_HASH" ]; then 
         mkdir -p $BUILD_DIR/$CIRCUIT
         circom main.circom  --r1cs --wasm -o $BUILD_DIR/$CIRCUIT
         npx snarkjs groth16 setup $BUILD_DIR/$CIRCUIT/main.r1cs $POWERS_OF_TAU $BUILD_DIR/$CIRCUIT/circuit_0000.zkey
         echo "test random" | npx snarkjs zkey contribute $BUILD_DIR/$CIRCUIT/circuit_0000.zkey $BUILD_DIR/$CIRCUIT/circuit_final.zkey
         npx snarkjs zkey export verificationkey $BUILD_DIR/$CIRCUIT/circuit_final.zkey $BUILD_DIR/$CIRCUIT/verification_key.json
-    fi 
+    # fi 
 
     echo "Finish setup....!"
 
@@ -82,7 +82,7 @@ function setup_circuit() {
     cp $CIRCUIT/main_js/main.wasm $ARTIFACTS_DIR
     cp $CIRCUIT/circuit_final.zkey $ARTIFACTS_DIR
     cp $CIRCUIT/verification_key.json $ARTIFACTS_DIR
-    echo $HASH > $CIRCUIT/hash.txt
+    # echo $HASH > $CIRCUIT/hash.txt
     echo "Setup finished!"
 }
 
